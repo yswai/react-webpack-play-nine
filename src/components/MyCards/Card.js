@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 require('bootstrap-loader');
 
 class Card extends React.Component {
