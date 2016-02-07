@@ -8,11 +8,15 @@ class MyCards extends React.Component {
     this.state = {
       users: [{
         id: 1,
-        name: 'yswai1986',
+        name: 'yswai',
         description: 'Rocks!'
       }, {
         id: 2,
         name: 'petehunt',
+        description: 'Rocks! 1'
+      }, {
+        id: 3,
+        name: 'linus',
         description: 'Rocks! 1'
       }]
     }
@@ -26,7 +30,7 @@ class MyCards extends React.Component {
         {
           this.state.users.map(function(user) {
             return <div className="row well">
-              <Card key={user.id} header={user.name} body={user.description} />
+              <Card key={user.id} name={user.name} body={user.description} />
             </div>
           })
         }

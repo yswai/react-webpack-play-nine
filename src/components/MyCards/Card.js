@@ -22,7 +22,7 @@ class Card extends React.Component {
     return (
       <div className="col-md-4">
         <div className="alert alert-warning">
-          <h4>{this.props.header}</h4>
+          <h4>{this.props.name}</h4>
         </div>
         <div className="alert alert-success row">
           <div className="col-md-4">

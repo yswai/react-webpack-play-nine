@@ -34,7 +34,9 @@ class Game extends React.Component {
           <div className="col-md-4">
             <Stars stars={this.state.stars} />
           </div>
-          <div className="col-md-2"></div>
+          <div className="col-md-4">
+            ...
+          </div>
           <div className="col-md-4">
             <Answers selected={self.state.state} />
           </div>
