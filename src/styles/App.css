@@ -20,7 +20,7 @@ body {
   background: #666;
 }
 
-.btn-round {
+.btn-round, .answer-label {
   border-radius: 50%;
   margin: 10px;
 }

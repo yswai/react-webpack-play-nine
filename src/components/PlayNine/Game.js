@@ -10,6 +10,7 @@ class Game extends React.Component {
     super(props);
     this.state = {
       selected: [],
+      answers: [],
       retries: parseInt(this.props.maxRetries),
       stars: this.generateStars()
     };
@@ -19,6 +20,11 @@ class Game extends React.Component {
     return Math.round((Math.random() * (parseInt(this.props.size)))) || 1;
   }
 
+  addAnswer(answer) {
+    console.log('Add Answer');
+    this.state.answers.push(answer);
+  }
+
   redrawStars() {
     this.setState({
       stars: this.generateStars(),
@@ -26,16 +32,15 @@ class Game extends React.Component {
     });
   }
 
-  onSelect(num) {
-    var selected = this.state.selected.push(num);
-    this.setState({
-      selected: selected
-    });
+  onConfirmAnswer() {
+    this.state.selected.concat(this.state.answers);
   }
 
   render() {
     var self = this;
     var redrawStars = self.redrawStars.bind(self);
+    var addAnswer = self.addAnswer.bind(self);
+    var onConfirmAnswer = self.onConfirmAnswer.bind(self);
     return (
       <div className="row alert alert-success">
         <h4>Play Nine</h4>
@@ -44,14 +49,14 @@ class Game extends React.Component {
             <Stars stars={this.state.stars} />
           </div>
           <div className="col-md-4">
-            <Controls redrawStars={redrawStars} retries={this.state.retries} />
+            <Controls onConfirmAnswer={onConfirmAnswer} redrawStars={redrawStars} retries={this.state.retries} />
           </div>
           <div className="col-md-4">
-            <Answers selected={self.state.state} />
+            <Answers answers={self.state.answers} />
           </div>
         </div>
         <div className="col-md-12">
-          <Buttons onClick={self.onSelect} size={this.props.size} />
+          <Buttons onClick={addAnswer} size={this.props.size} />
         </div>
       </div>
     )

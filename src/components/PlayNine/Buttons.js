@@ -6,7 +6,8 @@ class Buttons extends React.Component {
     var buttons = [];
     for(var i = 0 ; i < this.props.size ; i++) {
       buttons.push(
-        <button key={i} className="btn btn-primary btn-round">
+        <button key={i} className="btn btn-primary btn-round"
+            onClick={this.props.onClick()}>
           {i+1}
         </button>
       );
