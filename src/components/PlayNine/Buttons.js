@@ -1,17 +1,20 @@
 import React from 'react';
+import _ from 'lodash';
 
 class Buttons extends React.Component {
 
   render() {
+    var self = this;
     var buttons = [];
-    for(var i = 0 ; i < this.props.size ; i++) {
+    _.each(this.props.buttons, function(button) {
       buttons.push(
-        <button key={i} className="btn btn-primary btn-round"
-            data-number={i+1} onClick={this.props.addAnswer}>
-          {i+1}
+        <button key={button.value} className="btn btn-primary btn-round"
+            data-number={button.value} onClick={self.props.addAnswer}
+            disabled={button.disabled}>
+          {button.value}
         </button>
       );
-    }
+    });
     return (
       <div className="buttons row">
         {buttons}

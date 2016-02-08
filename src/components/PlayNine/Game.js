@@ -10,12 +10,26 @@ class Game extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      selected: [],
-      answers: [],
+    this.state = this.generateNewGame();
+  }
+
+  generateNewGame() {
+    return {
+      buttons: _.times(this.props.size, function(i) {
+        return {
+          value: i + 1,
+          disabled: false
+        };
+      }),
+        answers: [],
+      usedValues: [],
       retries: parseInt(this.props.maxRetries),
       stars: this.generateStars()
     };
+  }
+
+  resetGame() {
+    this.setState(this.generateNewGame());
   }
 
   generateStars() {
@@ -25,7 +39,14 @@ class Game extends React.Component {
   addAnswer(e) {
     var num = parseInt($(e.target).data('number'));
     this.state.answers.push(num);
-    console.log(this.state.answers);
+    this.forceUpdate();
+  }
+
+  removeAnswer(e) {
+    var num = parseInt($(e.target).data('number'));
+    this.setState({
+      answers: _.without(this.state.answers, num)
+    });
   }
 
   redrawStars() {
@@ -36,13 +57,41 @@ class Game extends React.Component {
   }
 
   onConfirmAnswer() {
-    this.state.selected.concat(this.state.answers);
+    var currentAnswers = _.cloneDeep(this.state.answers);
+    this.setState({
+      usedValues : this.state.usedValues.concat(currentAnswers),
+      answers: [],
+      stars: this.generateStars()
+    });
+  }
+
+  isGameOver() {
+    if (this.state.retries === 0) {
+      return _.chain(this.state.buttons)
+        .map('value')
+        .without(this.state.usedValues)
+        .sum().value() !== this.state.stars;
+    }
+    return false;
+  }
+
+  isGameWon() {
+    return this.state.usedValues.length === this.props.size;
   }
 
   render() {
     var self = this;
+    _.each(this.state.buttons, function(button) {
+        button.disabled = _.includes(self.state.answers, button.value) ||
+                          _.includes(self.state.usedValues, button.value);
+    });
+    var isGameOver = this.isGameOver();
+    var isGameWon = this.isGameWon();
+    var resetGame = self.resetGame.bind(self);
+    var isCorrectAnswers = _.sum(this.state.answers) === this.state.stars;
     var redrawStars = self.redrawStars.bind(self);
     var addAnswer = self.addAnswer.bind(self);
+    var removeAnswer = self.removeAnswer.bind(self);
     var onConfirmAnswer = self.onConfirmAnswer.bind(self);
     return (
       <div className="row alert alert-success">
@@ -52,14 +101,16 @@ class Game extends React.Component {
             <Stars stars={this.state.stars} />
           </div>
           <div className="col-md-4">
-            <Controls onConfirmAnswer={onConfirmAnswer} redrawStars={redrawStars} retries={this.state.retries} />
+            <Controls onConfirmAnswer={onConfirmAnswer} redrawStars={redrawStars} retries={this.state.retries}
+              isCorrectAnswers={isCorrectAnswers} isGameOver={isGameOver} isGameWon={isGameWon}
+              resetGame={resetGame}/>
           </div>
           <div className="col-md-4">
-            <Answers answers={self.state.answers} />
+            <Answers answers={self.state.answers} removeAnswer={removeAnswer} />
           </div>
         </div>
         <div className="col-md-12">
-          <Buttons addAnswer={addAnswer} size={this.props.size} />
+          <Buttons addAnswer={addAnswer} buttons={this.state.buttons} />
         </div>
       </div>
     )

@@ -7,12 +7,13 @@ class Answers extends React.Component {
   }
 
   render() {
+    var self = this;
     var answers = this.props.answers.map(function(a) {
       return (
         <div className="col-md-4">
-          <label className="answer-label label label-success">
-            {a}
-          </label>
+          <button key={a} className="btn btn-round btn-success"
+            onClick={self.props.removeAnswer}
+            data-number={a}>{a}</button>
         </div>
       )
     });
