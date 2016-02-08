@@ -21,7 +21,7 @@ class Game extends React.Component {
           disabled: false
         };
       }),
-        answers: [],
+      answers: [],
       usedValues: [],
       retries: parseInt(this.props.maxRetries),
       stars: this.generateStars()
@@ -76,7 +76,7 @@ class Game extends React.Component {
   }
 
   isGameWon() {
-    return this.state.usedValues.length === this.props.size;
+    return this.state.usedValues.length === this.state.buttons.length;
   }
 
   render() {
