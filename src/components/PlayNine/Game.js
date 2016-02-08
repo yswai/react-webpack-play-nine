@@ -50,8 +50,12 @@ class Game extends React.Component {
   }
 
   redrawStars() {
+    var generatedStars = this.generateStars();
+    while(generatedStars === this.state.stars) {
+      generatedStars = this.generateStars();
+    }
     this.setState({
-      stars: this.generateStars(),
+      stars: generatedStars,
       retries: this.state.retries - 1
     });
   }

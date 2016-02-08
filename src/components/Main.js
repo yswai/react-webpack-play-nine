@@ -15,7 +15,7 @@ class AppComponent extends React.Component {
         <img src={yeomanImage} alt="Yeoman Generator" />
         <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
         <hr/>
-        <Game size="9" maxRetries="5" />
+        <Game size="9" maxRetries="50" />
         <hr/>
         <MyCounter counter/>
         <hr/>
