@@ -3,6 +3,8 @@ import Stars from './Stars.js';
 import Answers from './Answers.js';
 import Buttons from './Buttons.js';
 import Controls from './Controls.js';
+import $ from 'jquery';
+import _ from 'lodash';
 
 class Game extends React.Component {
 
@@ -20,9 +22,10 @@ class Game extends React.Component {
     return Math.round((Math.random() * (parseInt(this.props.size)))) || 1;
   }
 
-  addAnswer(answer) {
-    console.log('Add Answer');
-    this.state.answers.push(answer);
+  addAnswer(e) {
+    var num = parseInt($(e.target).data('number'));
+    this.state.answers.push(num);
+    console.log(this.state.answers);
   }
 
   redrawStars() {
@@ -56,7 +59,7 @@ class Game extends React.Component {
           </div>
         </div>
         <div className="col-md-12">
-          <Buttons onClick={addAnswer} size={this.props.size} />
+          <Buttons addAnswer={addAnswer} size={this.props.size} />
         </div>
       </div>
     )

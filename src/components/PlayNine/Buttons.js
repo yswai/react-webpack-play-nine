@@ -7,7 +7,7 @@ class Buttons extends React.Component {
     for(var i = 0 ; i < this.props.size ; i++) {
       buttons.push(
         <button key={i} className="btn btn-primary btn-round"
-            onClick={this.props.onClick()}>
+            data-number={i+1} onClick={this.props.addAnswer}>
           {i+1}
         </button>
       );
